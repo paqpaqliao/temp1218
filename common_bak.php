@@ -310,6 +310,7 @@ function regetCartlist(){
 
 
 
+
     // 03. 取得購物車 兌換品資料
     $conditions['select'] = ' c_cartlist.cartlist_id, c_cartlist.exchange_id, c_cartlist.kind, c_cartlist.price, c_cartlist.qty, c_exchange.name, c_exchange.pic01, c_exchange.point, c_exchange.vis, c_exchange.open ';
 
@@ -341,7 +342,7 @@ function regetCartlist(){
         if( $cart1!=false ) {
 
             // 更新 兌換點數
-            for($i = 0; $i<count($cart3);$i++){
+            for($i = 0;$i<count($cart3);$i++){
 
                 if( $haspoint >= $cart3[$i]['point'] ){
 
@@ -1291,7 +1292,7 @@ function getPoint($key){
                         $cut = $cut+ $ary['retpoint'];
 
                     }
-
+                    // $i++;
                 }
             }
         }
@@ -1370,11 +1371,13 @@ if( $_POST['action'] == 'addexchange' ){
     $keyid2 = "cartlist_id";
 
 
-    // 1. 確認購物車狀態，無購買一般商品，無法兌換
+    // 1. 確認購物車狀態
     $conditions['search'] = array( 
         'session_id' => session_id()
     );
     $conditions['where'] = array( 'kind' => 1 );
+
+
 
     $chkcart = $db->getRows( $table2, $conditions );
     unset($conditions);
@@ -1402,6 +1405,7 @@ if( $_POST['action'] == 'addexchange' ){
     }else{
 
         if( isset($post['addpd'])  &&  isset($post['addqty']) ){
+
 
             // 3. 取得目前可以兌換的點數(已經扣除加入購物車中點數)
             $haspoint = getPoint('');
